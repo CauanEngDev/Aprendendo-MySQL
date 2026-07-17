@@ -1,0 +1,3 @@
+db.url=jdbc:mysql://localhost:3306/TesteMySQL
+db.user=seu_usuario_aqui
+db.password=sua_senha_aqui
