@@ -1,0 +1,9 @@
+[14:47:12 2026-07-17] FETCHING Version 2.44.0
+[14:47:12 2026-07-17] CREATING /home/reisudcauan/.spicetify
+[14:47:12 2026-07-17] DOWNLOADING https://github.com/spicetify/cli/releases/download/v2.44.0/spicetify-2.44.0-linux-amd64.tar.gz
+[14:47:13 2026-07-17] EXTRACTING /home/reisudcauan/.spicetify/spicetify.tar.gz
+[14:47:13 2026-07-17] SETTING EXECUTABLE PERMISSIONS TO /home/reisudcauan/.spicetify/spicetify
+[14:47:13 2026-07-17] REMOVING /home/reisudcauan/.spicetify/spicetify.tar.gz
+[14:47:13 2026-07-17] APPENDING /home/reisudcauan/.spicetify to PATH in /home/reisudcauan/.zshrc
+[14:47:13 2026-07-17] spicetify v2.44.0 was installed successfully to /home/reisudcauan/.spicetify
+[14:47:13 2026-07-17] Run 'spicetify --help' to get started

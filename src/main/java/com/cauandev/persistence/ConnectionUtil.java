@@ -38,4 +38,6 @@ public class ConnectionUtil {
                 props.getProperty("db.password")
         );
     }
+
+    public static Properties getProps() { return  props; }
 }
