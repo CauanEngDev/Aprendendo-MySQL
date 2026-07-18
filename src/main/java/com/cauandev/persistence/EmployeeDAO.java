@@ -24,8 +24,6 @@ public class EmployeeDAO {
                     formatOffsetDateTime(employeeEntity.getBirthday()) + "' )";
             statement.executeUpdate(sql);
 
-            // System.out.printf("Foram afetados %s registros na base de dados.", statement.getUpdateCount());
-
             if (statement instanceof StatementImpl impl)
                 employeeEntity.setId(impl.getLastInsertID());
         } catch (SQLException ex) {
@@ -34,7 +32,22 @@ public class EmployeeDAO {
     }
 
     public void update(final EmployeeEntity employeeEntity) {
+        try(
+                var connection = ConnectionUtil.getConnection();
+                var statement = connection.createStatement()
+        ) {
+            var sql = "UPDATE employees set " +
+                    "name     /= '" + employeeEntity.getName() + "', " +
+                    "salary   =  " + employeeEntity.getSalary() + ", " +
+                    "birthday = '" + formatOffsetDateTime(employeeEntity.getBirthday()) + "'" +
+                    "WHERE id = " + employeeEntity.getId();
+            statement.executeUpdate(sql);
 
+            if (statement instanceof StatementImpl impl)
+                employeeEntity.setId(impl.getLastInsertID());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void delete(long id) {
