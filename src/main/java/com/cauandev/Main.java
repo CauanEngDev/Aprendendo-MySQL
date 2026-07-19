@@ -1,6 +1,7 @@
 package com.cauandev;
 
 import com.cauandev.persistence.ConnectionUtil;
+import com.cauandev.persistence.EmployeeAuditDAO;
 import com.cauandev.persistence.EmployeeDAO;
 import com.cauandev.persistence.entity.EmployeeEntity;
 import org.flywaydb.core.Flyway;
@@ -17,6 +18,7 @@ import java.util.Properties;
 public class Main {
 
     private final static EmployeeDAO employeeDAO = new EmployeeDAO();
+    private final static EmployeeAuditDAO employeeAuditDAO = new EmployeeAuditDAO();
 
     static void main() {
         var props = ConnectionUtil.getProps();
@@ -63,5 +65,7 @@ public class Main {
         employeeDAO.update(employeeUpd);
 
         employeeDAO.delete(insert.getId());
+
+        employeeAuditDAO.findAll().forEach(System.out::println);
     }
 }

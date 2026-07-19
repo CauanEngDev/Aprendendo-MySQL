@@ -5,7 +5,6 @@ import com.mysql.cj.jdbc.StatementImpl;
 
 import java.sql.SQLException;
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +13,24 @@ import static java.time.ZoneOffset.UTC;
 
 public class EmployeeDAO {
     public void insert(final EmployeeEntity employeeEntity) {
+        try(
+                var connection = ConnectionUtil.getConnection();
+                var statement = connection.createStatement()
+        ) {
+            var sql = "INSERT INTO employees (name, salary, birthday) values ('" +
+                    employeeEntity.getName() + "', " +
+                    employeeEntity.getSalary() + ", '" +
+                    formatOffsetDateTime(employeeEntity.getBirthday()) + "' )";
+            statement.executeUpdate(sql);
+
+            if (statement instanceof StatementImpl impl)
+                employeeEntity.setId(impl.getLastInsertID());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void insertWIthProcedure(final EmployeeEntity employeeEntity) {
         try(
                 var connection = ConnectionUtil.getConnection();
                 var statement = connection.createStatement()
