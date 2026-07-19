@@ -54,12 +54,14 @@ public class Main {
 
         employeeDAO.findAll().forEach(System.out::println);*/
 
-        var employeeUpd = new EmployeeEntity();
+        /*var employeeUpd = new EmployeeEntity();
         employeeUpd.setId(1);
         employeeUpd.setName("Lucario");
         employeeUpd.setSalary(new BigDecimal(2000));
         employeeUpd.setBirthday(OffsetDateTime.now().minusYears(18));
 
-        employeeDAO.update(employeeUpd);
+        employeeDAO.update(employeeUpd);*/
+
+        employeeDAO.delete(1);
     }
 }
