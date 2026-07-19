@@ -31,13 +31,13 @@ public class Main {
 
         flyway.migrate();
 
-        /*var employee = new EmployeeEntity();
-        employee.setName("Lucas");
-        employee.setSalary(new BigDecimal(3500));
-        employee.setBirthday(OffsetDateTime.now().minusYears(20));
-        System.out.println(employee);
-        employeeDAO.insert(employee);
-        System.out.println(employee);*/
+        var insert = new EmployeeEntity();
+        insert.setName("Lucas");
+        insert.setSalary(new BigDecimal(3500));
+        insert.setBirthday(OffsetDateTime.now().minusYears(20));
+        System.out.println(insert);
+        employeeDAO.insert(insert);
+        System.out.println(insert);
 
         /*var employee = new EmployeeEntity();
         employee.setName("Taylon");
@@ -54,14 +54,14 @@ public class Main {
 
         employeeDAO.findAll().forEach(System.out::println);*/
 
-        /*var employeeUpd = new EmployeeEntity();
-        employeeUpd.setId(1);
+        var employeeUpd = new EmployeeEntity();
+        employeeUpd.setId(insert.getId());
         employeeUpd.setName("Lucario");
         employeeUpd.setSalary(new BigDecimal(2000));
         employeeUpd.setBirthday(OffsetDateTime.now().minusYears(18));
 
-        employeeDAO.update(employeeUpd);*/
+        employeeDAO.update(employeeUpd);
 
-        employeeDAO.delete(1);
+        employeeDAO.delete(insert.getId());
     }
 }

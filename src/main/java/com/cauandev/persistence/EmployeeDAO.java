@@ -37,7 +37,7 @@ public class EmployeeDAO {
                 var statement = connection.createStatement()
         ) {
             var sql = "UPDATE employees set " +
-                    "name     /= '" + employeeEntity.getName() + "', " +
+                    "name     = '" + employeeEntity.getName() + "', " +
                     "salary   =  " + employeeEntity.getSalary() + ", " +
                     "birthday = '" + formatOffsetDateTime(employeeEntity.getBirthday()) + "'" +
                     "WHERE id = " + employeeEntity.getId();
