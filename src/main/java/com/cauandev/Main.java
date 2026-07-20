@@ -5,14 +5,21 @@ import com.cauandev.persistence.EmployeeAuditDAO;
 import com.cauandev.persistence.EmployeeDAO;
 import com.cauandev.persistence.EmployeeParamDAO;
 import com.cauandev.persistence.entity.EmployeeEntity;
+import net.datafaker.Faker;
 import org.flywaydb.core.Flyway;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.util.Locale;
 import java.util.Properties;
+import java.util.stream.Stream;
+
+import static java.time.ZoneOffset.UTC;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -20,6 +27,7 @@ public class Main {
 
     private final static EmployeeParamDAO employeeDAO = new EmployeeParamDAO();
     private final static EmployeeAuditDAO employeeAuditDAO = new EmployeeAuditDAO();
+    private final static Faker faker = new Faker(Locale.of("pt", "BR"));
 
     static void main() {
         var props = ConnectionUtil.getProps();
@@ -34,13 +42,13 @@ public class Main {
 
         flyway.migrate();
 
-        var insert = new EmployeeEntity();
+        /*var insert = new EmployeeEntity();
         insert.setName("Lucas");
         insert.setSalary(new BigDecimal(3500));
         insert.setBirthday(OffsetDateTime.now().minusYears(20));
         System.out.println(insert);
         employeeDAO.insertWIthProcedure(insert);
-        System.out.println(insert);
+        System.out.println(insert);*/
 
         /*var employee = new EmployeeEntity();
         employee.setName("Taylon");
@@ -57,7 +65,7 @@ public class Main {
 
         employeeDAO.findAll().forEach(System.out::println);*/
 
-        var employeeUpd = new EmployeeEntity();
+        /*var employeeUpd = new EmployeeEntity();
         employeeUpd.setId(insert.getId());
         employeeUpd.setName("Lucario");
         employeeUpd.setSalary(new BigDecimal(2000));
@@ -67,6 +75,17 @@ public class Main {
 
         employeeDAO.delete(insert.getId());
 
-        employeeAuditDAO.findAll().forEach(System.out::println);
+        employeeAuditDAO.findAll().forEach(System.out::println);*/
+
+        var entities = Stream.generate(() -> {
+                    var employee = new EmployeeEntity();
+                    employee.setName(faker.name().fullName());
+                    employee.setSalary(new BigDecimal(faker.number().digits(4)));
+                    employee.setBirthday(OffsetDateTime.of(LocalDate.now().minusYears(faker.number().numberBetween(40, 20)), LocalTime.MIN ,UTC));
+                    return employee;
+            }
+        ).limit(10000).toList();
+
+        employeeDAO.insertBatch(entities);
     }
 }
