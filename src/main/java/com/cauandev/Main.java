@@ -3,6 +3,7 @@ package com.cauandev;
 import com.cauandev.persistence.ConnectionUtil;
 import com.cauandev.persistence.EmployeeAuditDAO;
 import com.cauandev.persistence.EmployeeDAO;
+import com.cauandev.persistence.EmployeeParamDAO;
 import com.cauandev.persistence.entity.EmployeeEntity;
 import org.flywaydb.core.Flyway;
 
@@ -17,7 +18,7 @@ import java.util.Properties;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
 
-    private final static EmployeeDAO employeeDAO = new EmployeeDAO();
+    private final static EmployeeParamDAO employeeDAO = new EmployeeParamDAO();
     private final static EmployeeAuditDAO employeeAuditDAO = new EmployeeAuditDAO();
 
     static void main() {
@@ -38,7 +39,7 @@ public class Main {
         insert.setSalary(new BigDecimal(3500));
         insert.setBirthday(OffsetDateTime.now().minusYears(20));
         System.out.println(insert);
-        employeeDAO.insert(insert);
+        employeeDAO.insertWIthProcedure(insert);
         System.out.println(insert);
 
         /*var employee = new EmployeeEntity();
