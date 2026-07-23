@@ -1,9 +1,7 @@
 package com.cauandev;
 
-import com.cauandev.persistence.ConnectionUtil;
-import com.cauandev.persistence.EmployeeAuditDAO;
-import com.cauandev.persistence.EmployeeDAO;
-import com.cauandev.persistence.EmployeeParamDAO;
+import com.cauandev.persistence.*;
+import com.cauandev.persistence.entity.ContactEntity;
 import com.cauandev.persistence.entity.EmployeeEntity;
 import net.datafaker.Faker;
 import org.flywaydb.core.Flyway;
@@ -27,6 +25,7 @@ public class Main {
 
     private final static EmployeeParamDAO employeeDAO = new EmployeeParamDAO();
     private final static EmployeeAuditDAO employeeAuditDAO = new EmployeeAuditDAO();
+    private static final ContactDAO contactDAO = new ContactDAO();
     private final static Faker faker = new Faker(Locale.of("pt", "BR"));
 
     static void main() {
@@ -77,7 +76,7 @@ public class Main {
 
         employeeAuditDAO.findAll().forEach(System.out::println);*/
 
-        var entities = Stream.generate(() -> {
+        /*var entities = Stream.generate(() -> {
                     var employee = new EmployeeEntity();
                     employee.setName(faker.name().fullName());
                     employee.setSalary(new BigDecimal(faker.number().digits(4)));
@@ -86,6 +85,21 @@ public class Main {
             }
         ).limit(10000).toList();
 
-        employeeDAO.insertBatch(entities);
+        employeeDAO.insertBatch(entities);*/
+
+        /*var employee = new EmployeeEntity();
+        employee.setName("João Victor");
+        employee.setSalary(new BigDecimal(3500));
+        employee.setBirthday(OffsetDateTime.now().minusYears(20));
+        employeeDAO.insert(employee);
+
+        var contact = new ContactEntity();
+        contact.setDescription("joao.victor2026@gmail.com");
+        contact.setType("e-mail");
+        contact.setEmployee(employee);
+
+        contactDAO.insert(contact);*/
+
+        System.out.println(employeeDAO.findById(30271));
     }
 }

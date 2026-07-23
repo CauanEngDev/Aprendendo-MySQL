@@ -1,5 +1,6 @@
 package com.cauandev.persistence;
 
+import com.cauandev.persistence.entity.ContactEntity;
 import com.cauandev.persistence.entity.EmployeeEntity;
 import com.mysql.cj.jdbc.StatementImpl;
 
@@ -158,20 +159,34 @@ public class EmployeeParamDAO {
 
     public EmployeeEntity findById(final long id) {
         var entity = new EmployeeEntity();
+        var sql = "SELECT e.id employee_id, " +
+                         "e.name, " +
+                         "e.salary, " +
+                         "e.birthday, " +
+                         "c.id contact_id, " +
+                         "c.description, " +
+                         "c.type " +
+                "FROM employees e " +
+                "LEFT JOIN contacts c " +
+                "ON c.employee_id = e.id WHERE e.id = ?";
 
         try(
                 var connection = ConnectionUtil.getConnection();
-                var statement = connection.prepareStatement("SELECT * FROM employees WHERE id = ?")
+                var statement = connection.prepareStatement(sql)
         ) {
             statement.setLong(1, id);
             statement.executeQuery();
             var resultSet = statement.getResultSet();
             if (resultSet.next()) {
-                entity.setId(resultSet.getLong("id"));
+                entity.setId(resultSet.getLong("employee_id"));
                 entity.setName(resultSet.getString("name"));
                 entity.setSalary(resultSet.getBigDecimal("salary"));
                 var birthdayInstant = resultSet.getTimestamp("birthday").toInstant();
                 entity.setBirthday(OffsetDateTime.ofInstant(birthdayInstant, UTC));
+                entity.setContact(new ContactEntity());
+                entity.getContact().setId(resultSet.getLong("contact_id"));
+                entity.getContact().setDescription(resultSet.getString("description"));
+                entity.getContact().setType(resultSet.getString("type"));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
