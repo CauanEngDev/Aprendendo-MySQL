@@ -2,6 +2,7 @@ package com.cauandev.persistence;
 
 import com.cauandev.persistence.entity.ContactEntity;
 import com.cauandev.persistence.entity.EmployeeEntity;
+import com.cauandev.persistence.entity.ModuleEntity;
 import com.mysql.cj.jdbc.StatementImpl;
 
 import java.sql.SQLException;
@@ -17,6 +18,7 @@ import static java.util.TimeZone.LONG;
 public class EmployeeParamDAO {
 
     private final ContactDAO contactDAO = new ContactDAO();
+    private final AccessDAO accessDAO = new AccessDAO();
 
     public void insert(final EmployeeEntity employeeEntity) {
         try(
@@ -35,6 +37,10 @@ public class EmployeeParamDAO {
 
             if (statement instanceof StatementImpl impl)
                 employeeEntity.setId(impl.getLastInsertID());
+
+            employeeEntity.getModules().stream()
+                .map(ModuleEntity::getId)
+                .forEach(m -> accessDAO.insert(employeeEntity.getId(), m));
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

@@ -5,5 +5,5 @@ CREATE TABLE contacts
     type        VARCHAR(30),
     employee_id BIGINT      not null,
     CONSTRAINT fk_contacts_employee FOREIGN KEY (employee_id) REFERENCES employees(id),
-        PRIMARY KEY (id)
+    PRIMARY KEY (id)
 )

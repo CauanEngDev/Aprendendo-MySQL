@@ -3,6 +3,7 @@ package com.cauandev;
 import com.cauandev.persistence.*;
 import com.cauandev.persistence.entity.ContactEntity;
 import com.cauandev.persistence.entity.EmployeeEntity;
+import com.cauandev.persistence.entity.ModuleEntity;
 import net.datafaker.Faker;
 import org.flywaydb.core.Flyway;
 
@@ -13,6 +14,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.stream.Stream;
@@ -124,6 +126,26 @@ public class Main {
 
         System.out.println(employeeDAO.findById(employee.getId()));*/
 
-        employeeDAO.findAll().forEach(System.out::println);
+        //employeeDAO.findAll().forEach(System.out::println);
+
+
+        var entities = Stream.generate(() -> {
+                var employee = new EmployeeEntity();
+                employee.setName(faker.name().fullName());
+                employee.setSalary(new BigDecimal(faker.number().digits(4)));
+                employee.setBirthday(OffsetDateTime.of(LocalDate.now().minusYears(faker.number().numberBetween(40, 20)), LocalTime.MIN ,UTC));
+                employee.setModules(new ArrayList<>());
+
+                var moduleAmount = faker.number().numberBetween(1, 4);
+                for (int i = 0; i < moduleAmount; i++) {
+                    var module = new ModuleEntity();
+                    module.setId(i + 1);
+                    employee.getModules().add(module);
+                }
+                return employee;
+            }
+        ).limit(3).toList();
+
+        entities.forEach(employeeDAO::insert);
     }
 }
