@@ -100,6 +100,30 @@ public class Main {
 
         contactDAO.insert(contact);*/
 
-        System.out.println(employeeDAO.findById(30271));
+        /*System.out.println(employeeDAO.findById(30271));*/
+
+        /*var employee = new EmployeeEntity();
+        employee.setName("Kauan");
+        employee.setSalary(new BigDecimal(1600));
+        employee.setBirthday(OffsetDateTime.now().minusYears(21));
+        employeeDAO.insert(employee);*/
+
+        /*var contact = new ContactEntity();
+        contact.setDescription("mikael.boxe2026@gmail.com");
+        contact.setType("e-mail");
+        contact.setEmployee(employee);
+
+        contactDAO.insert(contact);
+
+        var contact2 = new ContactEntity();
+        contact2.setDescription("75982829191");
+        contact2.setType("telefone");
+        contact2.setEmployee(employee);
+
+        contactDAO.insert(contact2);
+
+        System.out.println(employeeDAO.findById(employee.getId()));*/
+
+        employeeDAO.findAll().forEach(System.out::println);
     }
 }

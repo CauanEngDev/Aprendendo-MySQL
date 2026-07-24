@@ -15,6 +15,9 @@ import static java.time.ZoneOffset.UTC;
 import static java.util.TimeZone.LONG;
 
 public class EmployeeParamDAO {
+
+    private final ContactDAO contactDAO = new ContactDAO();
+
     public void insert(final EmployeeEntity employeeEntity) {
         try(
                 var connection = ConnectionUtil.getConnection();
@@ -147,6 +150,7 @@ public class EmployeeParamDAO {
                 entity.setSalary(resultSet.getBigDecimal("salary"));
                 var birthdayInstant = resultSet.getTimestamp("birthday").toInstant();
                 entity.setBirthday(OffsetDateTime.ofInstant(birthdayInstant, UTC));
+                entity.setContacts(contactDAO.findByEmployeeId(resultSet.getLong("id")));
 
                 entities.add(entity);
             }
@@ -183,10 +187,15 @@ public class EmployeeParamDAO {
                 entity.setSalary(resultSet.getBigDecimal("salary"));
                 var birthdayInstant = resultSet.getTimestamp("birthday").toInstant();
                 entity.setBirthday(OffsetDateTime.ofInstant(birthdayInstant, UTC));
-                entity.setContact(new ContactEntity());
-                entity.getContact().setId(resultSet.getLong("contact_id"));
-                entity.getContact().setDescription(resultSet.getString("description"));
-                entity.getContact().setType(resultSet.getString("type"));
+                entity.setContacts(new ArrayList<>());
+
+                do {
+                    var contact = new ContactEntity();
+                    contact.setId(resultSet.getLong("contact_id"));
+                    contact.setDescription(resultSet.getString("description"));
+                    contact.setType(resultSet.getString("type"));
+                    entity.getContacts().add(contact);
+                } while (resultSet.next());
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
