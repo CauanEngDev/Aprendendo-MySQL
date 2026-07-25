@@ -28,6 +28,8 @@ public class Main {
     private final static EmployeeParamDAO employeeDAO = new EmployeeParamDAO();
     private final static EmployeeAuditDAO employeeAuditDAO = new EmployeeAuditDAO();
     private static final ContactDAO contactDAO = new ContactDAO();
+    private static final ModuleDAO moduleDAO = new ModuleDAO();
+
     private final static Faker faker = new Faker(Locale.of("pt", "BR"));
 
     static void main() {
@@ -129,7 +131,7 @@ public class Main {
         //employeeDAO.findAll().forEach(System.out::println);
 
 
-        var entities = Stream.generate(() -> {
+        /*var entities = Stream.generate(() -> {
                 var employee = new EmployeeEntity();
                 employee.setName(faker.name().fullName());
                 employee.setSalary(new BigDecimal(faker.number().digits(4)));
@@ -146,6 +148,8 @@ public class Main {
             }
         ).limit(3).toList();
 
-        entities.forEach(employeeDAO::insert);
+        entities.forEach(employeeDAO::insert);*/
+
+        moduleDAO.findAll().forEach(System.out::println);
     }
 }
