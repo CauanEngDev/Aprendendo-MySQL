@@ -150,6 +150,6 @@ public class Main {
 
         entities.forEach(employeeDAO::insert);*/
 
-        moduleDAO.findAll().forEach(System.out::println);
+        //moduleDAO.findAll().forEach(System.out::println);
     }
 }
